@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FIFA World Cup 2026 — Interactive Bracket & Live Prediction Odds
+
+A full-featured FIFA World Cup 2026 visualization app built with Next.js 16, Turbopack, TypeScript, and Tailwind CSS v4.
+
+- **48 teams, 12 groups, 104 matches** — official FIFA draw & schedule
+- **Interactive knockout bracket** with SVG bezier connectors, zoom controls, compact center (Final + 3rd Place)
+- **Venue map** with Leaflet/OpenStreetMap — 16 stadiums across USA/Canada/Mexico with flag marker pins
+- **Live Kalshi prediction market odds** for all 72 group matches — real prices & dollar volume, polls every 5 minutes via server-side API proxy
+- **Animated UI** — staggered slide-ups, count-up stats, soccer ball spinner, glow effects
+- **Filterable calendar** — filter by team or venue across all 39 match days
+
+All data sourced from FIFA's official draw. Odds pulled from Kalshi's exchange API. Zero external dependencies for icons/animations.
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) with Turbopack
+- TypeScript
+- Tailwind CSS v4
+- Leaflet + react-leaflet (open-source mapping)
+- Kalshi Trade API (prediction markets)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+Static export with a single dynamic API route (`/api/kalshi`) for live odds proxying.
 
-To learn more about Next.js, take a look at the following resources:
+## How This Was Built
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All views, research, and verification done in about an hour using **Gemma 4 (26B, a4b-it, 4-bit)** running locally on a MacBook with the native `mlx-lm` framework, powered by the **OpenCode** agent.
