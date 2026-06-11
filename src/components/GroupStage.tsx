@@ -2,6 +2,7 @@
 
 import { groupLabels, getTeamsByGroup } from "@/data/teams"
 import { getMatchesByGroup } from "@/data/matches"
+import { getTeamInfo } from "@/lib/utils"
 import { MatchCard } from "./MatchCard"
 import { useKalshiOdds } from "@/lib/KalshiOddsProvider"
 
@@ -33,16 +34,19 @@ export function GroupStage() {
               </div>
               <div className="p-3">
                 <div className="mb-3 space-y-1">
-                  {groupTeams.map((team, ti) => (
-                    <div
-                      key={team.id}
-                      className="flex items-center gap-2 px-2 py-1 rounded bg-zinc-800/40 transition-all duration-200 hover:bg-zinc-700/40 hover:translate-x-0.5"
-                      style={{ animationDelay: `${gi * 40 + ti * 30}ms`, animationFillMode: "both" }}
-                    >
-                      <span className="text-lg">{team.flag}</span>
-                      <span className="text-sm font-medium text-zinc-200">{team.name}</span>
-                    </div>
-                  ))}
+                  {groupTeams.map((team, ti) => {
+                    const info = getTeamInfo(team.id)
+                    return (
+                      <div
+                        key={team.id}
+                        className="flex items-center gap-2 px-2 py-1 rounded bg-zinc-800/40 transition-all duration-200 hover:bg-zinc-700/40 hover:translate-x-0.5"
+                        style={{ animationDelay: `${gi * 40 + ti * 30}ms`, animationFillMode: "both" }}
+                      >
+                        <span className="text-lg">{info.flag}</span>
+                        <span className="text-sm font-medium text-zinc-200">{info.shortName}<sup className="text-[10px] text-zinc-500 ml-0.5">{info.rank}</sup></span>
+                      </div>
+                    )
+                  })}
                 </div>
                 <div className="space-y-2">
                   {groupMatches.map((match, mi) => {

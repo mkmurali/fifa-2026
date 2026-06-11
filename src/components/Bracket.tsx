@@ -89,8 +89,8 @@ function BracketMatch({
   showArrow = true,
 }: {
   label: string
-  team1: { name: string; flag: string }
-  team2: { name: string; flag: string }
+  team1: { name: string; flag: string; rank: number | null }
+  team2: { name: string; flag: string; rank: number | null }
   score1?: number
   score2?: number
   date?: string
@@ -113,10 +113,10 @@ function BracketMatch({
       </div>
       <div className="p-2 space-y-1">
         <div className="flex items-center justify-between gap-2">
-          <span className="flex items-center gap-1.5 text-xs truncate">
+          <span className="flex items-center gap-1 text-xs truncate">
             <span>{team1.flag}</span>
             <span className={`font-medium truncate ${team1.name === "TBD" ? "text-zinc-500" : isFinished && score1! < score2! ? "text-zinc-500" : "text-zinc-100"}`}>
-              {team1.name === "TBD" ? "TBD" : team1.name}
+              {team1.name === "TBD" ? "TBD" : team1.name}{team1.rank && <sup className="text-[9px] text-zinc-500 ml-0.5">{team1.rank}</sup>}
             </span>
           </span>
           <span className={`text-xs font-bold tabular-nums shrink-0 ${isFinished ? "text-white" : "text-zinc-500"}`}>
@@ -124,10 +124,10 @@ function BracketMatch({
           </span>
         </div>
         <div className="flex items-center justify-between gap-2">
-          <span className="flex items-center gap-1.5 text-xs truncate">
+          <span className="flex items-center gap-1 text-xs truncate">
             <span>{team2.flag}</span>
             <span className={`font-medium truncate ${team2.name === "TBD" ? "text-zinc-500" : isFinished && score2! < score1! ? "text-zinc-500" : "text-zinc-100"}`}>
-              {team2.name === "TBD" ? "TBD" : team2.name}
+              {team2.name === "TBD" ? "TBD" : team2.name}{team2.rank && <sup className="text-[9px] text-zinc-500 ml-0.5">{team2.rank}</sup>}
             </span>
           </span>
           <span className={`text-xs font-bold tabular-nums shrink-0 ${isFinished ? "text-white" : "text-zinc-500"}`}>
@@ -186,8 +186,8 @@ export function Bracket() {
       match: (
         <BracketMatch
           label={label}
-          team1={{ name: h.shortName, flag: h.flag }}
-          team2={{ name: a.shortName, flag: a.flag }}
+          team1={{ name: h.shortName, flag: h.flag, rank: h.rank }}
+          team2={{ name: a.shortName, flag: a.flag, rank: a.rank }}
           score1={m.homeScore}
           score2={m.awayScore}
           date={m.date}

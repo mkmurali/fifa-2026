@@ -45,17 +45,17 @@ function MatchRow({ match, index, kalshiOdds }: { match: Match; index: number; k
         <div className="text-xs font-semibold text-zinc-300">{formatMatchTime(match.date, match.time, match.venue)}</div>
       </div>
       <div className="flex-1 flex items-center gap-3 min-w-0">
-        <div className="flex items-center gap-2 w-[120px] justify-end shrink-0">
+        <div className="flex items-center gap-2 w-[140px] justify-end shrink-0">
           <span className={`text-sm font-medium truncate ${home.name === "TBD" ? "text-zinc-500" : "text-zinc-100"}`}>
-            {home.shortName}
+            {home.shortName}<sup className={`text-[10px] text-zinc-500 ml-0.5 ${home.name === "TBD" ? "opacity-0" : ""}`}>{home.rank}</sup>
           </span>
           <span className="text-base">{home.flag}</span>
         </div>
         <div className="text-xs font-semibold text-zinc-500 shrink-0">vs</div>
-        <div className="flex items-center gap-2 w-[120px] shrink-0">
+        <div className="flex items-center gap-2 w-[140px] shrink-0">
           <span className="text-base">{away.flag}</span>
           <span className={`text-sm font-medium truncate ${away.name === "TBD" ? "text-zinc-500" : "text-zinc-100"}`}>
-            {away.shortName}
+            {away.shortName}<sup className={`text-[10px] text-zinc-500 ml-0.5 ${away.name === "TBD" ? "opacity-0" : ""}`}>{away.rank}</sup>
           </span>
         </div>
         {prob && (

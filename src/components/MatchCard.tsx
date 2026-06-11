@@ -47,7 +47,7 @@ export function MatchCard({ match, compact = false, showProb = false, kalshiOdds
           <span className="flex items-center gap-1.5 truncate">
             <span className="text-base">{home.flag}</span>
             <span className={`font-medium truncate ${isFinished && match.homeScore! < match.awayScore! ? "text-zinc-500" : "text-white"}`}>
-              {home.shortName}
+              {home.shortName}<sup className={`text-[10px] text-zinc-500 ml-0.5 ${isFinished && match.homeScore! < match.awayScore! ? "opacity-40" : ""}`}>{home.rank}</sup>
             </span>
           </span>
           <span className={`font-bold tabular-nums shrink-0 ${isFinished ? "text-white" : "text-zinc-400"}`}>
@@ -58,7 +58,7 @@ export function MatchCard({ match, compact = false, showProb = false, kalshiOdds
           <span className="flex items-center gap-1.5 truncate">
             <span className="text-base">{away.flag}</span>
             <span className={`font-medium truncate ${isFinished && match.awayScore! < match.homeScore! ? "text-zinc-500" : "text-white"}`}>
-              {away.shortName}
+              {away.shortName}<sup className={`text-[10px] text-zinc-500 ml-0.5 ${isFinished && match.awayScore! < match.homeScore! ? "opacity-40" : ""}`}>{away.rank}</sup>
             </span>
           </span>
           <span className={`font-bold tabular-nums shrink-0 ${isFinished ? "text-white" : "text-zinc-400"}`}>

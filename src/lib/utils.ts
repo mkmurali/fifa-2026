@@ -1,12 +1,19 @@
 import { getTeam } from "@/data/teams"
 import { fifaRatings } from "@/data/fifaRatings"
 
+const rankings = Object.entries(fifaRatings)
+  .sort(([, a], [, b]) => b - a)
+  .reduce((acc, [id], i) => { acc[id] = i + 1; return acc }, {} as Record<string, number>)
+
 export function getTeamInfo(id: string) {
   if (id.startsWith("winner-") || id.startsWith("runner-up-") || id.startsWith("loser-") || id.startsWith("3rd-")) {
-    return { name: "TBD", shortName: "TBD", flag: "🏳️", group: "" }
+    return { name: "TBD", shortName: "TBD", flag: "🏳️", group: "", rank: null }
   }
-  return getTeam(id) ?? { id, name: id, shortName: id.toUpperCase(), flag: "🏳️", group: "" }
+  const team = getTeam(id)
+  if (!team) return { id, name: id, shortName: id.toUpperCase(), flag: "🏳️", group: "", rank: null }
+  return { ...team, rank: rankings[id] ?? null }
 }
+export type TeamInfo = ReturnType<typeof getTeamInfo>
 
 // UTC offset in minutes for each venue during June-July 2026 (DST in effect for US/Canada, none for Mexico)
 const venueUtcOffsets: Record<string, number> = {
