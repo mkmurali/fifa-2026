@@ -1,6 +1,8 @@
 "use client"
 
-import { useState, type ReactNode } from "react"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
+import type { ReactNode } from "react"
 
 interface Tab {
   id: string
@@ -9,15 +11,18 @@ interface Tab {
 }
 
 export function Tabs({ tabs }: { tabs: Tab[] }) {
-  const [active, setActive] = useState(tabs[0]?.id ?? "")
+  const pathname = usePathname()
+  const active = pathname === "/"
+    ? tabs[0]?.id
+    : tabs.find((t) => `/${t.id}` === pathname)?.id ?? tabs[0]?.id
 
   return (
     <>
       <div className="flex flex-wrap gap-1 border-b border-zinc-800 mb-8">
         {tabs.map((t) => (
-          <button
+          <Link
             key={t.id}
-            onClick={() => setActive(t.id)}
+            href={t.id === tabs[0]?.id ? "/" : `/${t.id}`}
             className={`px-4 py-2.5 text-sm font-medium transition-all duration-200 border-b-2 -mb-[1px] ${
               active === t.id
                 ? "text-white border-white"
@@ -25,7 +30,7 @@ export function Tabs({ tabs }: { tabs: Tab[] }) {
             }`}
           >
             {t.label}
-          </button>
+          </Link>
         ))}
       </div>
       <div key={active} className="animate-fade-in">
