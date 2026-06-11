@@ -8,9 +8,55 @@ export function getTeamInfo(id: string) {
   return getTeam(id) ?? { id, name: id, shortName: id.toUpperCase(), flag: "🏳️", group: "" }
 }
 
+// UTC offset in minutes for each venue during June-July 2026 (DST in effect for US/Canada, none for Mexico)
+const venueUtcOffsets: Record<string, number> = {
+  metlife: -240, att: -300, sofi: -420, arrowhead: -300,
+  mercedes: -240, nrg: -300, lumen: -420, levis: -420,
+  hardrock: -240, linc: -240, gillette: -240,
+  bcplace: -420, bmofield: -240,
+  azteca: -360, akron: -360, bbva: -360,
+}
+
+function toUTCDate(dateStr: string, timeStr: string, venueId: string): Date {
+  const offset = venueUtcOffsets[venueId] ?? -240
+  const naive = new Date(`${dateStr}T${timeStr}:00Z`)
+  return new Date(naive.getTime() - offset * 60_000)
+}
+
 export function formatDate(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00")
   return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })
+}
+
+export function formatMatchTime(dateStr: string, timeStr: string, venueId: string): string {
+  return toUTCDate(dateStr, timeStr, venueId).toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  })
+}
+
+export function formatMatchDate(dateStr: string, timeStr: string, venueId: string): string {
+  return toUTCDate(dateStr, timeStr, venueId).toLocaleString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  })
+}
+
+export function matchLocalDateKey(dateStr: string, timeStr: string, venueId: string): string {
+  return toUTCDate(dateStr, timeStr, venueId).toLocaleDateString("en-CA")
+}
+
+export function formatMatchDateTime(dateStr: string, timeStr: string, venueId: string): string {
+  return toUTCDate(dateStr, timeStr, venueId).toLocaleString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  })
 }
 
 export const roundColors: Record<string, string> = {

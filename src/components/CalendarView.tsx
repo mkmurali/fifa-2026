@@ -4,7 +4,7 @@ import { useState, useMemo } from "react"
 import { matches, type Match } from "@/data/matches"
 import { venues } from "@/data/venues"
 import { teams } from "@/data/teams"
-import { getTeamInfo, formatDate, getMatchProb } from "@/lib/utils"
+import { getTeamInfo, formatMatchDate, formatMatchTime, matchLocalDateKey, getMatchProb } from "@/lib/utils"
 import { useKalshiOdds, type MatchOddsData } from "@/lib/KalshiOddsProvider"
 
 const roundBadge: Record<string, string> = {
@@ -42,7 +42,7 @@ function MatchRow({ match, index, kalshiOdds }: { match: Match; index: number; k
       ${roundBorder[match.round] ?? "border-l-zinc-700/40"}
     `} style={{ animationDelay: `${index * 20}ms`, animationFillMode: "both" }}>
       <div className="w-16 shrink-0 text-center">
-        <div className="text-xs font-semibold text-zinc-300">{match.time}</div>
+        <div className="text-xs font-semibold text-zinc-300">{formatMatchTime(match.date, match.time, match.venue)}</div>
       </div>
       <div className="flex-1 flex items-center gap-3 min-w-0">
         <div className="flex items-center gap-2 w-[120px] justify-end shrink-0">
@@ -105,9 +105,10 @@ export function CalendarView() {
   const groupedByDate = useMemo(() => {
     const map = new Map<string, Match[]>()
     for (const m of filtered) {
-      const existing = map.get(m.date)
+      const key = matchLocalDateKey(m.date, m.time, m.venue)
+      const existing = map.get(key)
       if (existing) existing.push(m)
-      else map.set(m.date, [m])
+      else map.set(key, [m])
     }
     return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b))
   }, [filtered])
@@ -150,7 +151,7 @@ export function CalendarView() {
           <div key={date}>
             <div className="sticky top-14 z-10 bg-zinc-900/90 backdrop-blur-sm py-2 mb-3 border-b border-zinc-800">
               <h3 className="text-base font-semibold text-white">
-                {formatDate(date)}
+                {formatMatchDate(dayMatches[0].date, dayMatches[0].time, dayMatches[0].venue)}
                 <span className="text-zinc-500 font-normal text-sm ml-2">
                   {dayMatches.length} match{dayMatches.length !== 1 ? "es" : ""}
                 </span>

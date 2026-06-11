@@ -4,7 +4,7 @@ import { useState } from "react"
 import { getMatchesByRound } from "@/data/matches"
 import { getTeamInfo } from "@/lib/utils"
 import { getVenue } from "@/data/venues"
-import { formatDate } from "@/lib/utils"
+import { formatMatchDateTime } from "@/lib/utils"
 
 const roundAccent: Record<string, string> = {
   R32: "border-emerald-500/40",
@@ -82,6 +82,7 @@ function BracketMatch({
   score2,
   date,
   time,
+  venueId,
   venue,
   isFinished,
   dir = "ltr",
@@ -94,6 +95,7 @@ function BracketMatch({
   score2?: number
   date?: string
   time?: string
+  venueId?: string
   venue?: string
   isFinished?: boolean
   dir?: "ltr" | "rtl"
@@ -136,7 +138,7 @@ function BracketMatch({
       {(date || venue) && (
         <div className="px-2 py-1 bg-zinc-900/30 border-t border-zinc-700/30">
           <div className="text-[9px] text-zinc-500 leading-tight">
-            {date && time ? `${formatDate(date)} · ${time}` : ""}
+            {date && time && venueId ? formatMatchDateTime(date, time, venueId) : date && time ? `${date} ${time}` : ""}
             {venue && <div className="truncate">{venue}</div>}
           </div>
         </div>
@@ -190,6 +192,7 @@ export function Bracket() {
           score2={m.awayScore}
           date={m.date}
           time={m.time}
+          venueId={m.venue}
           venue={v ? `${v.name.slice(0, 20)}` : undefined}
           isFinished={m.status === "finished"}
           dir={dir}

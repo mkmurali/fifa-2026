@@ -1,5 +1,7 @@
+"use client"
+
 import type { Match } from "@/data/matches"
-import { getTeamInfo, formatDate, roundColors, getMatchProb } from "@/lib/utils"
+import { getTeamInfo, formatMatchDateTime, roundColors, getMatchProb } from "@/lib/utils"
 import { getVenue } from "@/data/venues"
 import type { MatchOddsData } from "@/lib/KalshiOddsProvider"
 
@@ -84,7 +86,7 @@ export function MatchCard({ match, compact = false, showProb = false, kalshiOdds
 
       <div className="px-2 py-1.5 bg-zinc-900/30 border-t border-zinc-700/30">
         <div className="text-[10px] text-zinc-400 leading-tight">
-          <div>{formatDate(match.date)} · {match.time}</div>
+          <div>{formatMatchDateTime(match.date, match.time, match.venue)}</div>
           {venue && <div className="truncate">{venue.name}, {venue.city}</div>}
         </div>
       </div>
