@@ -5,6 +5,7 @@ import { Bracket } from "@/components/Bracket"
 import { CalendarView } from "@/components/CalendarView"
 import { VenueMap } from "@/components/VenueMap"
 import { SoccerBall } from "@/components/SoccerBall"
+import { KalshiVolumeCard } from "@/components/KalshiVolumeCard"
 import { matches } from "@/data/matches"
 import { venues } from "@/data/venues"
 
@@ -15,11 +16,12 @@ export default function Home() {
       label: "Overview",
       content: (
         <div className="space-y-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <StatCard label="Teams" value="48" />
             <StatCard label="Matches" value={String(matches.length)} />
             <StatCard label="Host Cities" value={String(venues.length)} />
             <StatCard label="Tournament Days" value="39" />
+            <KalshiVolumeCard />
           </div>
           <div className="animate-slide-up border border-zinc-700/50 rounded-xl p-6 bg-gradient-to-br from-zinc-800/30 to-zinc-800/10 text-sm text-zinc-300 leading-relaxed hover:shadow-lg hover:shadow-black/15 transition-all duration-300">
             <p>
@@ -79,8 +81,9 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-zinc-800 mt-16 py-8">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-zinc-500">
-          FIFA World Cup 2026 Schedule Visualizer. Not affiliated with FIFA.
+        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-zinc-500 space-y-1">
+          <p>FIFA World Cup 2026 Schedule Visualizer. Not affiliated with FIFA.</p>
+          <p>Match outcome probabilities and volume data provided by <a href="https://kalshi.com" target="_blank" rel="noopener noreferrer" className="text-yellow-500/70 hover:text-yellow-400 underline underline-offset-2">Kalshi</a>. Markets may not be available in all jurisdictions.</p>
         </div>
       </footer>
     </div>
